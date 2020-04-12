@@ -21,6 +21,7 @@ class Garmin(object):
     url_heartrates = MODERN_URL + '/proxy/wellness-service/wellness/dailyHeartRate/'
     url_body_composition = MODERN_URL + '/proxy/weight-service/weight/daterangesnapshot'
     url_activities = MODERN_URL + '/proxy/activitylist-service/activities/search/activities'
+    url_activity_detail = MODERN_URL + '/proxy/activity-service/activity/{activity_id}/details?maxSize=999999999'
 
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36',
@@ -234,6 +235,15 @@ class Garmin(object):
         self.logger.debug("Fetching activities with url %s", activitiesurl)
 
         return self.fetch_data(activitiesurl)
+
+    def get_activity_details(self, activity_id):
+        """
+        Fetch  activity details
+        """
+        activitydetailurl = str.format(self.url_activity_detail,activity_id=activity_id)
+        self.logger.debug("Fetching activity details with url %s", activitydetailurl)
+
+        return self.fetch_data(activitydetailurl)
 
 
 class GarminConnectConnectionError(Exception):
